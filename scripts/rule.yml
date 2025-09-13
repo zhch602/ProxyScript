@@ -1,6 +1,7 @@
 rules:
   - url: https://johnshall.github.io/Shadowrocket-ADBlock-Rules-Forever/sr_ad_only.conf
   - url: https://script-hub.960602.xyz/file/_start_/https://github.com/fmz200/wool_scripts/raw/main/QuantumultX/rewrite/rewrite.snippet/_end_/rewrite.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
+    drop: qidian
   - url: https://script-hub.960602.xyz/file/_start_/https://github.com/fmz200/wool_scripts/raw/main/QuantumultX/rewrite/cleanup.snippet/_end_/cleanup.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
   - url: https://script-hub.960602.xyz/file/_start_/https://github.com/fmz200/wool_scripts/raw/main/QuantumultX/rewrite/weibo.snippet/_end_/weibo.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
   - url: https://whatshub.top/module/adultraplus.module

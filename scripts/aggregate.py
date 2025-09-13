@@ -7,6 +7,7 @@ import re
 import urllib.request
 import urllib.error
 from typing import List, Dict, Tuple, Optional, Set
+from urllib.parse import urlparse
 
 
 def parse_rule_yaml(yaml_path: str) -> List[Dict[str, str]]:
@@ -134,6 +135,31 @@ def fetch_url(url: str, timeout: int = 30) -> Optional[str]:
     return None
 
 
+def fetch_url_with_retries(url: str,
+                           retries: int = 3,
+                           timeout: int = 30,
+                           backoff: float = 1.5) -> Tuple[Optional[str], Optional[str]]:
+    """Fetch URL with simple retry and exponential backoff. Returns (text, error)."""
+    attempt = 0
+    last_error: Optional[str] = None
+    while attempt <= max(0, retries):
+        text = fetch_url(url, timeout=timeout)
+        if text is not None:
+            return text, None
+        attempt += 1
+        if attempt > retries:
+            break
+        # Backoff sleep
+        try:
+            import time
+            sleep_secs = pow(backoff, attempt - 1)
+            print(f"  -> retry {attempt}/{retries} in {sleep_secs:.1f}s")
+            time.sleep(sleep_secs)
+        except Exception:
+            pass
+    return None, last_error or f"Failed after {retries} retries"
+
+
 SECTION_HEADER_RE = re.compile(r"^\s*\[(?P<name>[^\]]+)\]\s*$")
 MITM_HOSTNAME_RE = re.compile(r"^\s*hostname\s*=\s*(?P<rest>.+?)\s*$", re.IGNORECASE)
 COMMENT_PREFIXES = ("#", "//", ";")
@@ -143,20 +169,53 @@ def is_http_url(source: str) -> bool:
     return source.startswith('http://') or source.startswith('https://')
 
 
-def fetch_source_text(source: str) -> Optional[str]:
-    """Fetch text from http(s) URL or read from local filesystem if not a URL."""
+def fetch_source_text(source: str,
+                      prefer_local: bool,
+                      retries: int,
+                      timeout: int,
+                      backoff: float) -> Tuple[Optional[str], Optional[str]]:
+    """Fetch text from http(s) URL or read from local filesystem if not a URL.
+
+    If prefer_local is True and source is a URL, and a local file exists with the same
+    basename as the URL path (e.g., adultraplus.module), prefer the local file.
+    Returns (text, error_message).
+    """
     if is_http_url(source):
-        return fetch_url(source)
+        if prefer_local:
+            try:
+                parsed = urlparse(source)
+                basename = os.path.basename(parsed.path)
+            except Exception:
+                basename = ''
+            if basename:
+                script_dir = os.path.dirname(os.path.abspath(__file__))
+                candidates = [
+                    os.path.join('.', basename),
+                    os.path.join(script_dir, '..', basename),
+                    os.path.join(script_dir, basename),
+                ]
+                for local_candidate in candidates:
+                    try:
+                        if os.path.exists(local_candidate) and os.path.isfile(local_candidate):
+                            with open(local_candidate, 'r', encoding='utf-8') as f:
+                                return f.read(), None
+                    except Exception as e:
+                        print(f"Error reading local override {local_candidate}: {e}", file=sys.stderr)
+        text, err = fetch_url_with_retries(source, retries=retries, timeout=timeout, backoff=backoff)
+        return text, err
     # Treat as local file path (absolute or relative to CWD)
     path = source
     try:
         with open(path, 'r', encoding='utf-8') as f:
-            return f.read()
+            return f.read(), None
     except FileNotFoundError:
-        print(f"Local file not found: {path}", file=sys.stderr)
+        msg = f"Local file not found: {path}"
+        print(msg, file=sys.stderr)
+        return None, msg
     except Exception as e:
-        print(f"Error reading local file {path}: {e}", file=sys.stderr)
-    return None
+        msg = f"Error reading local file {path}: {e}"
+        print(msg, file=sys.stderr)
+        return None, msg
 
 
 def normalize_line(line: str) -> str:
@@ -283,7 +342,14 @@ def write_merged(output_path: str,
         f.write("\n".join(out_lines) + "\n")
 
 
-def aggregate(rule_path: str, output_path: str, name: Optional[str], desc: Optional[str]) -> Tuple[int, int, int]:
+def aggregate(rule_path: str,
+              output_path: str,
+              name: Optional[str],
+              desc: Optional[str],
+              prefer_local: bool = False,
+              retries: int = 2,
+              timeout: int = 30,
+              backoff: float = 1.5) -> Tuple[int, int, int]:
     rules = parse_rule_yaml(rule_path)
     if not rules:
         raise SystemExit('No valid rules found in rule.yml')
@@ -303,13 +369,15 @@ def aggregate(rule_path: str, output_path: str, name: Optional[str], desc: Optio
     fetched = 0
     total = len(rules)
     draw_progress(0, total, prefix="Downloading")
+    failures: List[Tuple[int, str, str]] = []  # (index, url, error)
     for idx, rule in enumerate(rules, start=1):
         url = rule['url']
         drop_tokens = split_drop_tokens(rule.get('drop'))
         print(f"\n[{idx}/{total}] Downloading: {url}")
-        text = fetch_source_text(url)
+        text, err = fetch_source_text(url, prefer_local=prefer_local, retries=retries, timeout=timeout, backoff=backoff)
         if text is None:
-            print(f"  -> skip (download failed)", file=sys.stderr)
+            print(f"  -> skip (download failed){' - ' + err if err else ''}", file=sys.stderr)
+            failures.append((idx, url, err or 'unknown error'))
             draw_progress(idx, total, prefix="Downloading")
             continue
         fetched += 1
@@ -322,6 +390,11 @@ def aggregate(rule_path: str, output_path: str, name: Optional[str], desc: Optio
 
     total_non_mitm = sum(len(v) for v in non_mitm_lines.values())
     total_mitm = len(mitm_hosts)
+    # Summary of failures
+    if failures:
+        print("Failed sources:")
+        for idx, url, msg in failures:
+            print(f"  [{idx}] {url} -> {msg}")
     return fetched, total_non_mitm, total_mitm
 
 
@@ -331,10 +404,23 @@ def main() -> None:
     parser.add_argument('-o', '--output', default='merged.sgmodule', help='Output path (default: merged.sgmodule)')
     parser.add_argument('--name', default=None, help='Module display name for header (#!name=...)')
     parser.add_argument('--desc', default=None, help='Module description for header (#!desc=...)')
+    parser.add_argument('--prefer-local', action='store_true', help='Prefer local file with same basename over HTTP URL')
+    parser.add_argument('--retries', type=int, default=2, help='Retry times for fetching URLs (default: 2)')
+    parser.add_argument('--timeout', type=int, default=30, help='Timeout in seconds per request (default: 30)')
+    parser.add_argument('--backoff', type=float, default=1.5, help='Exponential backoff base between retries (default: 1.5)')
     args = parser.parse_args()
 
     try:
-        fetched, non_mitm_count, mitm_count = aggregate(args.input, args.output, args.name, args.desc)
+        fetched, non_mitm_count, mitm_count = aggregate(
+            args.input,
+            args.output,
+            args.name,
+            args.desc,
+            prefer_local=bool(args.prefer_local),
+            retries=int(args.retries),
+            timeout=int(args.timeout),
+            backoff=float(args.backoff),
+        )
         print(f"Done. fetched={fetched}, lines(non-MITM)={non_mitm_count}, hostnames(MITM)={mitm_count}")
         print(f"Output: {os.path.abspath(args.output)}")
     except SystemExit as e:
