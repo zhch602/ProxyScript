@@ -48445,6 +48445,18 @@ https://access.mypikpak.com/access_controller/v1/area_accessible - reject
 ^https?:\/\/qde\.qunar\.com\/preload - reject-200
 ^https?:\/\/homefront\.qunar\.com\/front\/splash\/ad - reject-dict
 ^https?:\/\/client\.qunar\.com\/pitcher-proxy\?qrt=p_splashAd - reject
+^https?:\/\/qidian\.qpic\.cn\/qidian_common - reject-img
+^https?:\/\/mage\.if\.qidian\.com\/Atom\.axd\/Api\/Client\/GetConfIOS - reject-img
+^https?:\/\/mage\.if\.qidian\.com\/argus\/api\/v\d\/client\/getsplashscreen - reject
+^https?://magev6.if.qidian.com/argus/api/v1/client/iosad - reject
+^https?://magev6.if.qidian.com/argus/api/v1/bookshelf/getad - reject
+^https?://magev6.if.qidian.com/argus/api/v4/client/getsplashscreen? - reject
+^https?:\/\/magev6\.if\.qidian\.com\/argus\/api\/v1\/adv - reject-dict
+^https?:\/\/magev6\.if\.qidian\.com\/argus\/api\/v1\/followsubscribe - reject-dict
+^http[s]?:\/\/magev6\.if\.qidian\.com\/argus\/api\/v1\/bookshelf\/refresh - reject-dict
+^https?:\/\/magev6\.if\.qidian\.com\/argus\/api\/v1\/adv\/getadvlistbatch - reject
+^https?:\/\/magev6\.if\.qidian\.com\/argus\/api\/v1\/bookshelf\/getTopOperation - reject-dict
+^https?:\/\/magev6\.if\.qidian\.com\/argus\/api\/v2\/adv\/getadvlistbatch - reject-dict
 ^https?:\/\/open\.e\.kuaishou\.cn\/rest\/e\/v3\/open\/univ - reject
 ^https?:\/\/api-access\.pangolin-sdk-toutiao-b\.com\/api\/ad\/union\/sdk\/get_ads - reject
 ^https?:\/\/api-access\.(pangolin-sdk-toutiao|pangolin-sdk-toutiao1)\.com\/api\/ad - reject
@@ -51627,6 +51639,7 @@ https://homefront.qunar.com/front/splash/ad - reject-200
 ^https?:\/\/client\.qunar\.com\/pitcher-proxy\?qrt=p_splashAd - reject-200
 ^https?:\/\/adproxy.autohome.com.cn\/AdvertiseService\/ - reject-200
 ^https?:\/\/app2.autoimg.cn\/appdfs\/ - reject-200
+^https?:\/\/magev\d\.if\.qidian\.com\/argus\/api\/v\d\/client\/getsplashscreen - reject-200
 ^https?:\/\/qadx\.qinlinad\.com\/ad\/ - reject-200
 ^https?:\/\/app\.api\.qjjfin\.com\/publicize\/allList - reject-200
 ^https?:\/\/(commontgw|comapi)\.reader\.qq\.com\/(common\/adV|com-ad\/config) - reject-200
@@ -52275,7 +52288,6 @@ xiaotucc=type=http-response,pattern=^https?:\/\/mapi\.xiaotucc\.com\/(mall\/main
 mafengwo=type=http-response,pattern=^https?:\/\/mapi\.mafengwo\.cn\/user\/profile\/get_(list|profile),requires-body=1,script-path=https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Scripts/AntiAd/mafengwo.js
 ddxq2=type=http-response,pattern=^https?:\/\/maicai\.api\.ddxq\.mobi\/tool\/getConfig,requires-body=1,script-path=https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Scripts/AntiAd/ddxq.js
 ddxq3=type=http-response,pattern=^https?:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/(?>bottomNavi|homeFlowDetail),requires-body=1,script-path=https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Scripts/AntiAd/ddxq.js
-qidian=type=http-response,pattern=^https?:\/\/magev6\.if\.qidian\.com\/argus\/api\/(v4\/client\/getsplashscreen|v2\/deeplink\/geturl|v1\/(client\/getconf|adv\/getadvlistbatch\?positions=iOS_tab|dailyrecommend\/getdailyrecommend)),requires-body=1,script-path=https://raw.githubusercontent.com/app2smile/rules/master/js/qidian.js
 weibo_json6=type=http-response,pattern=^https?:\/\/m?api\.weibo\.c(n|om)\/\d\/video/(community_tab|remind_info|tiny_stream_video_list),requires-body=1,script-path=https://raw.githubusercontent.com/ddgksf2013/Scripts/refs/heads/master/weibo_json.js
 weibo_json7=type=http-response,pattern=^https?:\/\/m?api\.weibo\.c(n|om)\/\d\/statuses/(unread_)?friends(/|_)timeline,requires-body=1,script-path=https://raw.githubusercontent.com/ddgksf2013/Scripts/refs/heads/master/weibo_json.js
 weibo_json8=type=http-response,pattern=^https?:\/\/m?api\.weibo\.c(n|om)\/\d\/statuses/(container_timeline|unread_hot_timeline|extend|video_mixtimeline|unread_topic_timeline),requires-body=1,script-path=https://raw.githubusercontent.com/ddgksf2013/Scripts/refs/heads/master/weibo_json.js
@@ -52365,7 +52377,6 @@ caiyun_json10=type=http-response,pattern=^https?:\/\/biz\.cyapi\.cn\/api\/v\d\/u
 smzdm_json8=type=http-response,pattern=^https?:\/\/baike-api\.smzdm\.com\/home_v3\/list,requires-body=1,script-path=https://raw.githubusercontent.com/ddgksf2013/Scripts/refs/heads/master/smzdm_json.js
 kuwo4=type=http-response,pattern=^https?:\/\/audiobookpay\.kuwo\.cn\/a\.p,requires-body=1,script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/kuwo/kuwo.js
 Smzdm6=type=http-response,pattern=^https?:\/\/article-api\.smzdm\.com\/publish\/get_bubble,requires-body=1,script-path=https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/Smzdm.js
-qidian2=type=http-response,pattern=^https?:\/\/apps\.teamair\.cn\/app\/version,requires-body=1,script-path=https://raw.githubusercontent.com/ddgksf2013/Scripts/refs/heads/master/qidian.js
 zhuanzhuan=type=http-response,pattern=^https?:\/\/app\.zhuanzhuan\.com\/zz\/transfer\/getmyprofilev3,requires-body=1,script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/zhuanzhuan/zhuanzhuan.js
 ad\=type=http-response,pattern=^https?:\/\/app02\.vgtime\.com:8080\/vgtime-app\/api\/v2\/init\/ad\.json,requires-body=1,script-path=https://raw.githubusercontent.com/app2smile/rules/master/js/vgtime.js
 Smzdm7=type=http-response,pattern=^https?:\/\/app-api\.smzdm\.com\/util\/update,requires-body=1,script-path=https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/Smzdm.js
@@ -52506,7 +52517,6 @@ baidumap2=type=http-response,pattern=^https:\/\/newclient\.map\.baidu\.com\/clie
 adrive=type=http-response,pattern=^https:\/\/member\.alipan\.com\/v1\/users\/onboard_list,requires-body=1,script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/adrive/adrive.js
 huifutianxia_ads2=type=http-response,pattern=^https:\/\/mcsp\.cloudpnr\.com\/api\/miniapp\/popular\/T_MINIAPP$,requires-body=1,script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/huifutianxia_ads.js
 cmschina=type=http-response,pattern=^https:\/\/marketing\.cmschina\.com\/mkt\/api\/v1\?.*,requires-body=1,script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/cmschina/cmschina.js
-qidian3=type=http-response,pattern=^https:\/\/magev6\.if\.qidian\.com\/argus\/api\/(v4\/client\/getsplashscreen|v2\/(deeplink\/geturl|dailyrecommend\/getdailyrecommend)|v1\/(client\/getconf$|bookshelf\/getHoverAdv|adv\/getadvlistbatch\?positions=iOS_tab)),requires-body=1,script-path=https://raw.githubusercontent.com/app2smile/rules/master/js/qidian.js
 airchina=type=http-response,pattern=^https:\/\/m\.airchina\.com\.cn\/airchina\/gateway\/v\d(\.\d)*\/api\/services url script-response-header https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Scripts/AntiAd/airchina.js
 zhihu2=type=http-response,pattern=^https:\/\/m-cloud\.zhihu\.com\/api\/cloud\/config\/all\?,requires-body=1,script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/zhihu/zhihu.js
 lawson=type=http-response,pattern=^https:\/\/lawsonapi\.yorentown\.com\/portal\/app\/globalLaunch\/listAdvert,requires-body=1,script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/lawson.js
