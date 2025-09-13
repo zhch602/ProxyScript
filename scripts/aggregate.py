@@ -139,6 +139,26 @@ MITM_HOSTNAME_RE = re.compile(r"^\s*hostname\s*=\s*(?P<rest>.+?)\s*$", re.IGNORE
 COMMENT_PREFIXES = ("#", "//", ";")
 
 
+def is_http_url(source: str) -> bool:
+    return source.startswith('http://') or source.startswith('https://')
+
+
+def fetch_source_text(source: str) -> Optional[str]:
+    """Fetch text from http(s) URL or read from local filesystem if not a URL."""
+    if is_http_url(source):
+        return fetch_url(source)
+    # Treat as local file path (absolute or relative to CWD)
+    path = source
+    try:
+        with open(path, 'r', encoding='utf-8') as f:
+            return f.read()
+    except FileNotFoundError:
+        print(f"Local file not found: {path}", file=sys.stderr)
+    except Exception as e:
+        print(f"Error reading local file {path}: {e}", file=sys.stderr)
+    return None
+
+
 def normalize_line(line: str) -> str:
     return line.rstrip('\r\n')
 
@@ -287,7 +307,7 @@ def aggregate(rule_path: str, output_path: str, name: Optional[str], desc: Optio
         url = rule['url']
         drop_tokens = split_drop_tokens(rule.get('drop'))
         print(f"\n[{idx}/{total}] Downloading: {url}")
-        text = fetch_url(url)
+        text = fetch_source_text(url)
         if text is None:
             print(f"  -> skip (download failed)", file=sys.stderr)
             draw_progress(idx, total, prefix="Downloading")
