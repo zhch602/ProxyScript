@@ -9,13 +9,19 @@ cd "$REPO_ROOT"
 
 INPUT_REL="scripts/rule.yml"
 OUTPUT_REL="merged.sgmodule"
+RETRIES=${RETRIES:-3}
+TIMEOUT=${TIMEOUT:-20}
+BACKOFF=${BACKOFF:-2.0}
 
 # Run aggregator with requested name/desc using relative paths
 python3 scripts/aggregate.py \
   -i "$INPUT_REL" \
   -o "$OUTPUT_REL" \
   --name "ProxyScript" \
-  --desc "ProxyScript"
+  --desc "ProxyScript" \
+  --retries "$RETRIES" \
+  --timeout "$TIMEOUT" \
+  --backoff "$BACKOFF"
 
 # Add and commit only if there are changes
 if ! git diff --quiet -- "$OUTPUT_REL"; then
