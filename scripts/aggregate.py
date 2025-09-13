@@ -105,17 +105,34 @@ def parse_meta_yaml(yaml_path: str) -> Tuple[Optional[str], Optional[str]]:
 
 
 def fetch_url(url: str, timeout: int = 30) -> Optional[str]:
-    req = urllib.request.Request(
-        url,
-        headers={
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) '
-                          'AppleWebKit/537.36 (KHTML, like Gecko) '
-                          'Chrome/126.0.0.0 Safari/537.36',
-            'Accept': '*/*',
-            'Accept-Language': 'en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7',
-        },
-        method='GET'
-    )
+    # Build headers; some hosts (e.g., whatshub.top) block default browser UA, but allow curl-like UA
+    try:
+        parsed = urlparse(url)
+        origin = f"{parsed.scheme}://{parsed.netloc}"
+        host = parsed.netloc
+    except Exception:
+        origin = None
+        host = ''
+
+    # Default headers (curl-like UA tends to pass anti-bot on some CDNs)
+    headers = {
+        'User-Agent': 'curl/8.5.0',
+        'Accept': '*/*',
+        'Accept-Language': 'en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7',
+        'Connection': 'keep-alive',
+    }
+    if origin:
+        headers['Referer'] = origin + '/'
+        headers['Origin'] = origin
+
+    # Special-case tweaks
+    if host.endswith('whatshub.top'):
+        # Some endpoints require a referer and simple UA
+        headers['User-Agent'] = 'curl/8.5.0'
+        headers['Referer'] = 'https://whatshub.top/'
+        headers['Origin'] = 'https://whatshub.top'
+
+    req = urllib.request.Request(url, headers=headers, method='GET')
     try:
         with urllib.request.urlopen(req, timeout=timeout) as resp:
             data = resp.read()
