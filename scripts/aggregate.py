@@ -150,6 +150,21 @@ def split_drop_tokens(drop: Optional[str]) -> List[str]:
     return [t for t in (tok.strip() for tok in tokens) if t]
 
 
+def draw_progress(current: int, total: int, prefix: str = "Progress", width: int = 40) -> None:
+    """Draw a simple progress bar on a single line."""
+    current = max(0, min(current, total))
+    if total <= 0:
+        bar = '-' * width
+        percent = 0
+    else:
+        ratio = current / total
+        filled = int(width * ratio)
+        bar = '#' * filled + '-' * (width - filled)
+        percent = int(ratio * 100)
+    sys.stdout.write(f"\r{prefix}: [{bar}] {current}/{total} {percent}%")
+    sys.stdout.flush()
+
+
 def parse_and_aggregate(content: str,
                         drop_tokens: List[str],
                         section_order: List[str],
@@ -266,17 +281,23 @@ def aggregate(rule_path: str, output_path: str, name: Optional[str], desc: Optio
     mitm_seen: Set[str] = set()
 
     fetched = 0
+    total = len(rules)
+    draw_progress(0, total, prefix="Downloading")
     for idx, rule in enumerate(rules, start=1):
         url = rule['url']
         drop_tokens = split_drop_tokens(rule.get('drop'))
-        print(f"[{idx}/{len(rules)}] Downloading: {url}")
+        print(f"\n[{idx}/{total}] Downloading: {url}")
         text = fetch_url(url)
         if text is None:
             print(f"  -> skip (download failed)", file=sys.stderr)
+            draw_progress(idx, total, prefix="Downloading")
             continue
         fetched += 1
         parse_and_aggregate(text, drop_tokens, section_order, non_mitm_lines, non_mitm_seen, mitm_hosts, mitm_seen)
+        draw_progress(idx, total, prefix="Downloading")
 
+    # Finish the progress line with newline
+    print()
     write_merged(output_path, section_order, non_mitm_lines, mitm_hosts, name, desc)
 
     total_non_mitm = sum(len(v) for v in non_mitm_lines.values())
