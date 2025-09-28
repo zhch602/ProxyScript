@@ -1,28 +1,28 @@
 rules:
   - url: https://johnshall.github.io/Shadowrocket-ADBlock-Rules-Forever/sr_ad_only.conf
-  - url: https://script-hub.960602.xyz/file/_start_/https://github.com/fmz200/wool_scripts/raw/main/QuantumultX/rewrite/rewrite.snippet/_end_/rewrite.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
+  - url: https://script.960602.xyz/file/_start_/https://github.com/fmz200/wool_scripts/raw/main/QuantumultX/rewrite/rewrite.snippet/_end_/rewrite.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
     drop: qidian.js
-  - url: https://script-hub.960602.xyz/file/_start_/https://github.com/fmz200/wool_scripts/raw/main/QuantumultX/rewrite/cleanup.snippet/_end_/cleanup.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
-  - url: https://script-hub.960602.xyz/file/_start_/https://github.com/fmz200/wool_scripts/raw/main/QuantumultX/rewrite/weibo.snippet/_end_/weibo.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
+  - url: https://script.960602.xyz/file/_start_/https://github.com/fmz200/wool_scripts/raw/main/QuantumultX/rewrite/cleanup.snippet/_end_/cleanup.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
+  - url: https://script.960602.xyz/file/_start_/https://github.com/fmz200/wool_scripts/raw/main/QuantumultX/rewrite/weibo.snippet/_end_/weibo.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
   - url: https://whatshub.top/module/adultraplus.module
     drop: qidian.js
   - url: https://whatshub.top/module/meituxx.module
   - url: https://whatshub.top/module/YouTubeAd.sgmodule
-  - url: https://script-hub.960602.xyz/file/_start_/https://github.com/ddgksf2013/Rewrite/raw/master/AdBlock/AmapAds.conf/_end_/AmapAds.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
-  - url: https://script-hub.960602.xyz/file/_start_/https://github.com/ddgksf2013/Rewrite/raw/master/AdBlock/Applet.conf/_end_/Applet.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
-  - url: https://script-hub.960602.xyz/file/_start_/https://github.com/ddgksf2013/Rewrite/raw/master/AdBlock/BilibiliAdsLite.conf/_end_/BilibiliAdsLite.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
-  - url: https://script-hub.960602.xyz/file/_start_/https://github.com/ddgksf2013/Rewrite/raw/master/AdBlock/GoofishAds.conf/_end_/GoofishAds.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
-  - url: https://script-hub.960602.xyz/file/_start_/https://github.com/ddgksf2013/Rewrite/raw/master/AdBlock/KeepAds.conf/_end_/KeepAds.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
-  - url: https://script-hub.960602.xyz/file/_start_/https://github.com/ddgksf2013/Rewrite/raw/master/AdBlock/NeteaseAds.conf/_end_/NeteaseAds.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
-  - url: https://script-hub.960602.xyz/file/_start_/https://github.com/ddgksf2013/Rewrite/raw/master/AdBlock/SmzdmAds.conf/_end_/SmzdmAds.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
-  - url: https://script-hub.960602.xyz/file/_start_/https://github.com/app2smile/rules/raw/master/module/tieba-qx.conf/_end_/tieba-qx.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
-  - url: https://script-hub.960602.xyz/file/_start_/https://github.com/ddgksf2013/Rewrite/raw/master/AdBlock/WeiboAds.conf/_end_/WeiboAds.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
-  - url: https://script-hub.960602.xyz/file/_start_/https://github.com/ddgksf2013/Rewrite/raw/master/AdBlock/XiaoHongShuAds.conf/_end_/XiaoHongShuAds.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
-  - url: https://script-hub.960602.xyz/file/_start_/https://github.com/ddgksf2013/Rewrite/raw/master/AdBlock/Ximalaya.conf/_end_/Ximalaya.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
-  - url: https://script-hub.960602.xyz/file/_start_/https://github.com/ddgksf2013/Rewrite/raw/master/AdBlock/YoutubeAds.conf/_end_/YoutubeAds.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
-  - url: https://script-hub.960602.xyz/file/_start_/https://gist.githubusercontent.com/ddgksf2013/12ef6aad209155e7eb62c5b00c11b9dd/raw/StartUpAds.conf/_end_/StartUpAds.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
+  - url: https://script.960602.xyz/file/_start_/https://github.com/ddgksf2013/Rewrite/raw/master/AdBlock/AmapAds.conf/_end_/AmapAds.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
+  - url: https://script.960602.xyz/file/_start_/https://github.com/ddgksf2013/Rewrite/raw/master/AdBlock/Applet.conf/_end_/Applet.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
+  - url: https://script.960602.xyz/file/_start_/https://github.com/ddgksf2013/Rewrite/raw/master/AdBlock/BilibiliAdsLite.conf/_end_/BilibiliAdsLite.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
+  - url: https://script.960602.xyz/file/_start_/https://github.com/ddgksf2013/Rewrite/raw/master/AdBlock/GoofishAds.conf/_end_/GoofishAds.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
+  - url: https://script.960602.xyz/file/_start_/https://github.com/ddgksf2013/Rewrite/raw/master/AdBlock/KeepAds.conf/_end_/KeepAds.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
+  - url: https://script.960602.xyz/file/_start_/https://github.com/ddgksf2013/Rewrite/raw/master/AdBlock/NeteaseAds.conf/_end_/NeteaseAds.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
+  - url: https://script.960602.xyz/file/_start_/https://github.com/ddgksf2013/Rewrite/raw/master/AdBlock/SmzdmAds.conf/_end_/SmzdmAds.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
+  - url: https://script.960602.xyz/file/_start_/https://github.com/app2smile/rules/raw/master/module/tieba-qx.conf/_end_/tieba-qx.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
+  - url: https://script.960602.xyz/file/_start_/https://github.com/ddgksf2013/Rewrite/raw/master/AdBlock/WeiboAds.conf/_end_/WeiboAds.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
+  - url: https://script.960602.xyz/file/_start_/https://github.com/ddgksf2013/Rewrite/raw/master/AdBlock/XiaoHongShuAds.conf/_end_/XiaoHongShuAds.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
+  - url: https://script.960602.xyz/file/_start_/https://github.com/ddgksf2013/Rewrite/raw/master/AdBlock/Ximalaya.conf/_end_/Ximalaya.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
+  - url: https://script.960602.xyz/file/_start_/https://github.com/ddgksf2013/Rewrite/raw/master/AdBlock/YoutubeAds.conf/_end_/YoutubeAds.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
+  - url: https://script.960602.xyz/file/_start_/https://gist.githubusercontent.com/ddgksf2013/12ef6aad209155e7eb62c5b00c11b9dd/raw/StartUpAds.conf/_end_/StartUpAds.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
     drop: qidian.js
-  - url: https://script-hub.960602.xyz/file/_start_/https://gist.githubusercontent.com/ddgksf2013/f43026707830c7818ee3ba624e383c8d/raw/baiduCloud.adblock.js/_end_/baiduCloud.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
-  - url: https://script-hub.960602.xyz/file/_start_/https://gist.githubusercontent.com/ddgksf2013/d43179d848586d561dbb968dee93bae8/raw/Zhihu.Adblock.js/_end_/Zhihu.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
-  - url: https://script-hub.960602.xyz/file/_start_/https://raw.githubusercontent.com/ddgksf2013/Rewrite/master/Function/UnblockURLinWeChat.conf/_end_/UnblockURLinWeChat.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
-  - url: https://script-hub.960602.xyz/file/_start_/https://raw.githubusercontent.com/app2smile/rules/master/module/spotify.conf/_end_/spotify.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
+  - url: https://script.960602.xyz/file/_start_/https://gist.githubusercontent.com/ddgksf2013/f43026707830c7818ee3ba624e383c8d/raw/baiduCloud.adblock.js/_end_/baiduCloud.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
+  - url: https://script.960602.xyz/file/_start_/https://gist.githubusercontent.com/ddgksf2013/d43179d848586d561dbb968dee93bae8/raw/Zhihu.Adblock.js/_end_/Zhihu.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
+  - url: https://script.960602.xyz/file/_start_/https://raw.githubusercontent.com/ddgksf2013/Rewrite/master/Function/UnblockURLinWeChat.conf/_end_/UnblockURLinWeChat.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
+  - url: https://script.960602.xyz/file/_start_/https://raw.githubusercontent.com/app2smile/rules/master/module/spotify.conf/_end_/spotify.sgmodule?type=qx-rewrite&target=shadowrocket-module&del=true&jqEnabled=true
