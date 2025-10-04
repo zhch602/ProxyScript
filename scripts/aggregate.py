@@ -8,6 +8,7 @@ import urllib.request
 import urllib.error
 from typing import List, Dict, Tuple, Optional, Set
 from urllib.parse import urlparse
+import subprocess
 
 
 def parse_rule_yaml(yaml_path: str) -> List[Dict[str, str]]:
@@ -132,6 +133,35 @@ def fetch_url(url: str, timeout: int = 30) -> Optional[str]:
         headers['Referer'] = 'https://whatshub.top/'
         headers['Origin'] = 'https://whatshub.top'
 
+    def fetch_via_curl(target_url: str) -> Optional[str]:
+        """Fallback to system curl to better mimic CLI behavior when servers block urllib.
+
+        Uses silent mode, follows redirects, compressed encoding, and a max-time to align
+        with the given timeout. Passes the same headers constructed above.
+        """
+        try:
+            cmd: List[str] = [
+                'curl',
+                '-sS',            # silent but show errors
+                '-L',              # follow redirects
+                '--compressed',    # accept compressed content
+                '--max-time', str(int(max(1, timeout))),
+            ]
+            # Apply headers explicitly. Prefer -H form to keep control.
+            for k, v in headers.items():
+                cmd.extend(['-H', f"{k}: {v}"])
+            cmd.append(target_url)
+            result = subprocess.run(cmd, capture_output=True)
+            if result.returncode == 0 and result.stdout:
+                try:
+                    return result.stdout.decode('utf-8')
+                except UnicodeDecodeError:
+                    return result.stdout.decode('utf-8', errors='replace')
+            return None
+        except Exception as e:
+            print(f"curl fallback failed for {target_url}: {e}", file=sys.stderr)
+            return None
+
     req = urllib.request.Request(url, headers=headers, method='GET')
     try:
         with urllib.request.urlopen(req, timeout=timeout) as resp:
@@ -145,10 +175,24 @@ def fetch_url(url: str, timeout: int = 30) -> Optional[str]:
                     return data.decode('latin-1', errors='replace')
     except urllib.error.HTTPError as e:
         print(f"HTTPError fetching {url}: {e}", file=sys.stderr)
+        # Some hosts (e.g., whatshub.top) return 403 to non-curl clients;
+        # try a best-effort curl fallback which matches the user's working CLI.
+        if e.code in (403, 451):
+            alt = fetch_via_curl(url)
+            if alt is not None:
+                return alt
     except urllib.error.URLError as e:
         print(f"URLError fetching {url}: {e}", file=sys.stderr)
+        # Network-layer blocks may still succeed via curl (different TLS/HTTP2 path)
+        alt = fetch_via_curl(url)
+        if alt is not None:
+            return alt
     except Exception as e:
         print(f"Error fetching {url}: {e}", file=sys.stderr)
+        # Generic fallback as last resort
+        alt = fetch_via_curl(url)
+        if alt is not None:
+            return alt
     return None
 
 
